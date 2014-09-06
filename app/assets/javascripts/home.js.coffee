@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-  $("#container").highcharts
+  $(".container-grafico").highcharts
     chart:
       type: "bar"
 
