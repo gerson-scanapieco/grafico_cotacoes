@@ -17,20 +17,26 @@ $ ->
     yAxis:
       title:
         text: "Value in BRL"
-      tickInterval: 0.1
+      tickPositioner: () ->
+        positions = []
+        unless this.series[0].yData.length == 0
+          increment = (this.series[0].dataMax - this.series[0].dataMin)/3
+          tick = this.series[0].dataMin - increment
+
+          for i in [tick..this.series[0].dataMax + increment] by increment
+            positions.push(i.toFixed(3))
+          return positions
 
     xAxis:
        type: "datetime"
-       tickInterval: 24 * 3600 * 1000
-
+    
     series: [
       {
         data: [
-          0
         ]
       }
     ]
-
+        
   #ATENTION
   #JS RETURNS MONTH 0-11
   #Calculates the time frame start date by subtracting the selected amount by the user from the current date
@@ -67,19 +73,20 @@ $ ->
     return start_date
 
   #Gets the selected time frame start from the user and calls subtract_date to calculate the start date
-  calculate_start_date = (current_date)->
-    checked_box = $("input[type=radio]:checked").parent().text().trim()
-    return subtract_date(checked_box,current_date)
+  calculate_start_date = (option,current_date)->
+    return subtract_date(option,current_date)
 
-  $(".botao-teste").click ->
+  $(".botao-teste").click (event)->
+    event.preventDefault();
     btn = $(this)
     btn.button('loading')
     currency = $(".select-currency option:selected").text()
+    checked_box = $("input[type=radio]:checked").parent().text().trim()
 
     current_date = new Date()
     current_date_formated = current_date.getFullYear().toString() + "-" + current_date.getMonth().toString() + "-" + current_date.getDate().toString()
     
-    start_date = new Date(calculate_start_date(current_date))
+    start_date = new Date(calculate_start_date(checked_box,current_date))
     start_date_formated = start_date.getFullYear().toString() + "-" + start_date.getMonth().toString() + "-" + start_date.getDate().toString()
 
     url = "http://jsonrates.com/historical/?from=" + currency + "&to=BRL" +
@@ -94,13 +101,18 @@ $ ->
         valor = data["rates"][date]["rate"]
         array.push [new Date(date).getTime(),parseFloat(valor)]
       btn.button('reset')
-      console.log(array)
+      if checked_box.indexOf("D") != -1
+         chart.tickInterval = 24 * 3600 * 1000
+       else if checked_box.indexOf("M") != -1
+         chart.tickInterval = 24 * 3600 * 1000 * 7
+       else if checked_box.indexOf("Y") != -1
+         chart.tickInterval = 24 * 3600 * 1000 * 30
       chart.series[0].setData(array)
-
   #TODO
 
   # calcular data passada com base no radio selecionado OK
   # entender como funciona o grafico OK
   # plotar grafico com dados recebidos OK
   # ajustar zoom e unidade de tempo para graficos com longo periodo de tempo
+  # desenhar a media movel
   # testar tudo
