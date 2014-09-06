@@ -1,42 +1,32 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
-
+# data: [[x, y], [x, y], [x, y]]
 $ ->
 
   $(".container-grafico").highcharts
     chart:
-      type: "column"
+      type: "area"
 
     title:
-      text: "Fruit Consumption"
+      text: "Currencies Historical Data"
 
-    xAxis:
-      categories: [
-        "Apples"
-        "Bananas"
-        "Oranges"
-      ]
+    subtitle:
+      text: "Source: JSONRates"      
 
     yAxis:
       title:
-        text: "Fruit eaten"
+        text: "Value in BRL"
+      tickInterval: 0.1
+
+    xAxis:
+       type: "datetime"
+       tickInterval: 24 * 3600 * 1000
 
     series: [
       {
-        name: "Jane"
         data: [
-          1
           0
-          4
-        ]
-      }
-      {
-        name: "John"
-        data: [
-          5
-          7
-          3
         ]
       }
     ]
@@ -99,16 +89,18 @@ $ ->
 
     $.getJSON url, (data) ->
       array = []
+      chart = $(".container-grafico").highcharts()
       for date of data["rates"]
         valor = data["rates"][date]["rate"]
-        array.push valor
+        array.push [new Date(date).getTime(),parseFloat(valor)]
       btn.button('reset')
-      return array
-
+      console.log(array)
+      chart.series[0].setData(array)
 
   #TODO
 
-  # calcular data passada com base no radio selecionado
-  # entender como funciona o grafico
-  # plotar grafico com dados recebidos
+  # calcular data passada com base no radio selecionado OK
+  # entender como funciona o grafico OK
+  # plotar grafico com dados recebidos OK
+  # ajustar zoom e unidade de tempo para graficos com longo periodo de tempo
   # testar tudo
