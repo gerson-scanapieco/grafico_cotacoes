@@ -9,12 +9,17 @@
       %a.navbar-brand{:href => "#"} Charts
     .collapse.navbar-collapse
       %ul.nav.navbar-nav
-        %li.active
-          %a{:href => "#"} Home
-        %li
-          %a{:href => "#about"} About
-        %li
-          %a{:href => "#contact"} Contact
+        %form.navbar-form.navbar-left
+          .form-group
+            %label 
+              Currency
+              %select.form-control
+                %option USD
+                %option EUR
+                %option GBP
+          %button.btn.btn-success{:type => "submit"} Compare
     / /.nav-collapse
 .container
   .container-grafico
+  %button.btn.btn-primary.botao-teste
+    Teste

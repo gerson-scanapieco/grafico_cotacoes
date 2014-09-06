@@ -40,4 +40,13 @@ $ ->
       }
     ]
 
+  $(".botao-teste").click ->
+    $.getJSON "http://jsonrates.com/historical/?from=XBT&to=USD&dateStart=2014-06-23&dateEnd=2014-06-28&callback=?", (data) ->
+      array = []
+      for date of data["rates"]
+        console.log(date)
+        valor = data["rates"][date]["rate"]
+        array.push valor
+      return
+
   return
