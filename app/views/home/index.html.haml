@@ -13,13 +13,31 @@
           .form-group
             %label 
               Currency
-              %select.form-control
+              %select.form-control.select-currency
                 %option USD
                 %option EUR
                 %option GBP
-          %button.btn.btn-success{:type => "submit"} Compare
+          %button.btn.btn-success.botao-teste{:type => "submit", "data-loading-text" => "Loading..."} Compare
     / /.nav-collapse
 .container
   .container-grafico
-  %button.btn.btn-primary.botao-teste
-    Teste
+
+  .btn-group{"data-toggle" => "buttons"}
+    %label.btn.btn-primary
+      %input#option1{:type => "radio", :name => "options"} 1D
+    %label.btn.btn-primary
+      %input#option2{:type => "radio", :name => "options"} 5D
+    %label.btn.btn-primary
+      %input#option3{:type => "radio", :name => "options"} 1M
+    %label.btn.btn-primary
+      %input#option4{:type => "radio", :name => "options"} 3M
+    %label.btn.btn-primary.active
+      %input#option5{:type => "radio", :name => "options"} 6M
+    %label.btn.btn-primary
+      %input#option6{:type => "radio", :name => "options"} 1Y
+    %label.btn.btn-primary
+      %input#option7{:type => "radio", :name => "options"} 2Y
+    %label.btn.btn-primary
+      %input#option8{:type => "radio", :name => "options"} 5Y
+    %label.btn.btn-primary
+      %input#option9{:type => "radio", :name => "options"} MAX
