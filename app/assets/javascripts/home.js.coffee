@@ -6,9 +6,6 @@
 $ ->
 
   $(".container-grafico").highcharts
-    chart:
-      type: "area"
-
     title:
       text: "Currencies Historical Data"
 
@@ -32,8 +29,16 @@ $ ->
        type: "datetime"
     
     series: [
-      name: "Value over time"
       {
+        name: "Historical Values",
+        type: "area",
+        data: [
+        ]
+      },
+      { 
+        name: "Exponential Moving Average",
+        type: "line",
+        color: "#ED475B",
         data: [
         ]
       }
@@ -121,7 +126,9 @@ $ ->
 
     $.getJSON url, (data) ->
       array = []
+      calculated_mme = []
       chart = $(".container-grafico").highcharts()
+
       for date of data["rates"]
         valor = data["rates"][date]["rate"]
         array.push [new Date(date).getTime(),parseFloat(valor)]
@@ -132,7 +139,11 @@ $ ->
         chart.tickInterval = 24 * 3600 * 1000 * 7
       else if checked_box.indexOf("Y") != -1
         chart.tickInterval = 24 * 3600 * 1000 * 30
+
+      calculate_exponential_moving_average(array,21,calculated_mme,array.length - 1)
+
       chart.series[0].setData(array)
+      chart.series[1].setData(calculated_mme)
 
   #TODO
 
