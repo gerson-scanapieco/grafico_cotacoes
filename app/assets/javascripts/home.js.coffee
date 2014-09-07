@@ -115,10 +115,10 @@ $ ->
     time_span = $(".select-time-span option:selected").text()
 
     current_date = new Date()
-    current_date_formated = current_date.getFullYear().toString() + "-" + current_date.getMonth().toString() + "-" + current_date.getDate().toString()
+    current_date_formated = current_date.getFullYear().toString() + "-" + (current_date.getMonth() + 1).toString() + "-" + current_date.getDate().toString()
     
     start_date = new Date(calculate_start_date(time_span,current_date))
-    start_date_formated = start_date.getFullYear().toString() + "-" + start_date.getMonth().toString() + "-" + start_date.getDate().toString()
+    start_date_formated = start_date.getFullYear().toString() + "-" + (start_date.getMonth() + 1).toString() + "-" + start_date.getDate().toString()
 
     url = "http://jsonrates.com/historical/?from=" + currency + "&to=BRL" +
     "&dateStart=" + start_date_formated + 
@@ -134,7 +134,7 @@ $ ->
       for date of data["rates"]
         valor = data["rates"][date]["rate"]
         array.push [new Date(date).getTime(),parseFloat(valor)]
-      btn.button('reset')
+      
       if time_span.indexOf("D") != -1
         chart.tickInterval = 24 * 3600 * 1000
       else if time_span.indexOf("M") != -1
@@ -150,3 +150,4 @@ $ ->
       $(".container-dados").append("<p>" + new Date(array[array.length-1][0]).toUTCString()+ ":</p>")
       $(".container-dados").append("<p class='currency'>" + currency + "BRL=X " + array[array.length-1][1] + "</p>")
       $(".container-dados").append("<p class='ema'>EMA(21) " + calculated_mme[calculated_mme.length-1][1] + "</p>")
+      btn.button('reset')
