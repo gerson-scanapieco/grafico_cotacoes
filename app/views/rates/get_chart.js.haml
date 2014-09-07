@@ -1,0 +1,12 @@
+$(".container-dados").empty();
+var chart = $(".container-grafico").highcharts();
+var btn = $(".botao-ruby")
+
+chart.series[0].setData(#{@rate.historical_data.to_json});
+chart.series[1].setData(#{@rate.calculated_ema.to_json});
+
+$(".container-dados").append("<p>" + new Date(#{@rate.historical_data[@rate.historical_data.length-1][0]}).toUTCString()+ ":</p>");
+$(".container-dados").append("<p class='currency'>" + "#{@rate.currency}" + "BRL=X " + #{@rate.historical_data[@rate.historical_data.length-1][1]} + "</p>");
+$(".container-dados").append("<p class='ema'>EMA(21) " + "#{@rate.calculated_ema[@rate.calculated_ema.length-1][1]}" + "</p>");
+
+btn.button('reset');

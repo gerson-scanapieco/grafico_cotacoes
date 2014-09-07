@@ -52,7 +52,7 @@ RSpec.describe Rate, :type => :model do
 
   describe "#get_data" do
     it "sets in self a JSON parsed from the response" do
-      expect{rate.get_data}.to change{rate.historical_data}.from([]).to([ ["2014-09-06",2.25],["2014-09-07",2.26]])
+      expect{rate.get_data}.to change{rate.historical_data}.from([]).to([ [1409961600000,2.25],[1410048000000,2.26]])
     end
   end
 
@@ -61,15 +61,18 @@ RSpec.describe Rate, :type => :model do
       rate.historical_data = [ ["2014-09-06",2.25],["2014-09-07",2.26],["2014-09-08",2.27]]
     end
 
+    #Test recursive condition
     it "sets in self an array of arrays with the calculated ema for each date point" do
       expect{rate.calculate_ema(21,rate.historical_data.size-1)}.to change{rate.calculated_ema}.from([]).to([ ["2014-09-06",2.25],["2014-09-07",2.2509],["2014-09-08",2.2526] ])
     end
 
+    #Test fail condition
     it "does not calculates if the position is smaller than 0" do
       expect{rate.calculate_ema(21,-1)}.to_not change{rate.calculated_ema}
     end
 
-    it "returns itself if the array has only one position" do
+    #Tests Base Condition
+    it "returns only first element if the index represents an array with only one position" do
       expect{rate.calculate_ema(21,0)}.to change{rate.calculated_ema}.from([]).to([["2014-09-06",2.25]])
     end
   end

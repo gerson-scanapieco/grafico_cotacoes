@@ -36,7 +36,7 @@ class Rate
     parsed_response = JSON.parse(HTTParty.get(self.url).parsed_response)["rates"]
 
     parsed_response.each_value do |value|
-      self.historical_data << [Date.parse(value["utctime"]).to_s,value["rate"].to_f]
+      self.historical_data << [Date.parse(value["utctime"]).strftime("%Q").to_i,value["rate"].to_f]
     end
   end
 
