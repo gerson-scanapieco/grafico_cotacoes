@@ -106,17 +106,17 @@ $ ->
     return current_mme
 
 
-  $(".botao-teste").click (event)->
+  $(".botao-js").click (event)->
     event.preventDefault();
     btn = $(this)
     btn.button('loading')
     currency = $(".select-currency option:selected").text()
-    checked_box = $("input[type=radio]:checked").parent().text().trim()
+    time_span = $(".select-time-span option:selected").text()
 
     current_date = new Date()
     current_date_formated = current_date.getFullYear().toString() + "-" + current_date.getMonth().toString() + "-" + current_date.getDate().toString()
     
-    start_date = new Date(calculate_start_date(checked_box,current_date))
+    start_date = new Date(calculate_start_date(time_span,current_date))
     start_date_formated = start_date.getFullYear().toString() + "-" + start_date.getMonth().toString() + "-" + start_date.getDate().toString()
 
     url = "http://jsonrates.com/historical/?from=" + currency + "&to=BRL" +
@@ -134,11 +134,11 @@ $ ->
         valor = data["rates"][date]["rate"]
         array.push [new Date(date).getTime(),parseFloat(valor)]
       btn.button('reset')
-      if checked_box.indexOf("D") != -1
+      if time_span.indexOf("D") != -1
         chart.tickInterval = 24 * 3600 * 1000
-      else if checked_box.indexOf("M") != -1
+      else if time_span.indexOf("M") != -1
         chart.tickInterval = 24 * 3600 * 1000 * 7
-      else if checked_box.indexOf("Y") != -1
+      else if time_span.indexOf("Y") != -1
         chart.tickInterval = 24 * 3600 * 1000 * 30
 
       calculate_exponential_moving_average(array,21,calculated_mme,array.length - 1)
@@ -149,13 +149,3 @@ $ ->
       $(".container-dados").append("<p>" + new Date(array[array.length-1][0]).toUTCString()+ ":</p>")
       $(".container-dados").append("<p class='currency'>" + currency + "BRL=X " + array[array.length-1][1] + "</p>")
       $(".container-dados").append("<p class='ema'>EMA(21) " + calculated_mme[calculated_mme.length-1][1] + "</p>")
-
-  #TODO
-
-  # calcular data passada com base no radio selecionado OK
-  # entender como funciona o grafico OK
-  # plotar grafico com dados recebidos OK
-  # ajustar zoom e unidade de tempo para graficos com longo periodo de tempo +/-
-  # desenhar a media movel OK
-  # mostrar valores atuais para valor e media e a data atual
-  # testar tudo
