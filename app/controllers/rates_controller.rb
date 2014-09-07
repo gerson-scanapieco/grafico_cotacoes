@@ -1,19 +1,19 @@
 class RatesController < ApplicationController
 
-  #Retorna JSON com 2 arrays:
-  #array com os pontos do historico
-  #calculated_ema com os pontos da media
   def get_chart
-    puts "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
-    puts charts_params
+    start_date = Rate.calculate_start_date(charts_params[:time_span])
+    rate = Rate.new(currency: charts_params[:currency], start_date: start_date, end_data: Date.today.to_s)
+    rate.get_data
+    rate.calculate_ema
+
     respond_to do |format|
-      format.json{ }
+      format.js{ }
     end
   end
 
   private
 
   def charts_params
-    params.permit!
+    params.permit(:utf8,:commit,:currency,:time_span)
   end
 end

@@ -79,6 +79,7 @@ $ ->
         break
     return start_date
 
+  #TODO Remove method
   #Gets the selected time frame start from the user and calls subtract_date to calculate the start date
   calculate_start_date = (option,current_date)->
     return subtract_date(option,current_date)
