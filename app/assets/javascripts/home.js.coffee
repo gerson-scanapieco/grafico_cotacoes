@@ -106,7 +106,6 @@ $ ->
 
     return current_mme
 
-
   $(".botao-js").click (event)->
     event.preventDefault();
     btn = $(this)
@@ -151,3 +150,6 @@ $ ->
       $(".container-dados").append("<p class='currency'>" + currency + "BRL=X " + array[array.length-1][1] + "</p>")
       $(".container-dados").append("<p class='ema'>EMA(21) " + calculated_mme[calculated_mme.length-1][1] + "</p>")
       btn.button('reset')
+
+  $(".botao-ruby").click (event) ->
+    $(this).button('loading')

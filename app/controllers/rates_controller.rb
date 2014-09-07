@@ -10,6 +10,7 @@ class RatesController < ApplicationController
 
   private
 
+  #Whitelist params comming from UI
   def charts_params
     params.permit(:utf8,:commit,:currency,:time_span)
   end

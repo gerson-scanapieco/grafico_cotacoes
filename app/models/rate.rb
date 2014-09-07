@@ -9,6 +9,7 @@ class Rate
     @historical_data = []
   end
 
+  #Calculates the starting date based on the time-span selected by the user.
   def self.calculate_start_date(time_span)
     case time_span
     when "1D"
@@ -32,6 +33,7 @@ class Rate
     end
   end
 
+  #Gets data from the API and inserts in the @historial_data field.
   def get_data
     parsed_response = JSON.parse(HTTParty.get(self.url).parsed_response)["rates"]
 
@@ -40,22 +42,30 @@ class Rate
     end
   end
 
+  #Recursively calculates the EMA from each date point in @historical_data field.
   def calculate_ema(number_of_days,current_position)
+    #Weird condition
     if current_position < 0
       return
     end
 
+    #Base Case
     if current_position == 0
       self.calculated_ema << [self.historical_data[current_position][0], self.historical_data[current_position][1]]
       return self.historical_data[current_position][1]
     end
 
+    #Recursive call. Since the recursive call is called twice in the calculation process, it makes sense to detach it from
+    #the formula and call it only once
     previous_ema = calculate_ema(number_of_days,current_position-1)
 
+    #EMA calculation
     current_ema = (self.historical_data[current_position][1] - previous_ema) * (2.0/(number_of_days+1)) + previous_ema
 
+    #Inserts the calculated EMA in @calculated_ema array
     self.calculated_ema << [self.historical_data[current_position][0],current_ema.round(4)]
 
+    #Returns the current_ema to next calculation
     return current_ema
   end
 end
