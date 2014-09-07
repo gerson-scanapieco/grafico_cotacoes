@@ -151,6 +151,6 @@ $ ->
   # entender como funciona o grafico OK
   # plotar grafico com dados recebidos OK
   # ajustar zoom e unidade de tempo para graficos com longo periodo de tempo +/-
-  # desenhar a media movel
+  # desenhar a media movel OK
   # mostrar valores atuais para valor e media e a data atual
   # testar tudo

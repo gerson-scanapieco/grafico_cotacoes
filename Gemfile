@@ -30,6 +30,7 @@ gem 'haml-rails'
 gem 'autoprefixer-rails'  
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'rspec-rails', group: [:development, :test]
+gem 'rails_12factor', group: :production
 
 ruby "2.1.1"
 
