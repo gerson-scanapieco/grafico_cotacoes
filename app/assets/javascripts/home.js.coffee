@@ -125,6 +125,7 @@ $ ->
     "&callback=?"
 
     $.getJSON url, (data) ->
+      $(".container-dados").empty()
       array = []
       calculated_mme = []
       chart = $(".container-grafico").highcharts()
@@ -144,6 +145,10 @@ $ ->
 
       chart.series[0].setData(array)
       chart.series[1].setData(calculated_mme)
+
+      $(".container-dados").append("<p>" + new Date(array[array.length-1][0]).toUTCString()+ ":</p>")
+      $(".container-dados").append("<p class='currency'>" + currency + "BRL=X " + array[array.length-1][1] + "</p>")
+      $(".container-dados").append("<p class='ema'>EMA(21) " + calculated_mme[calculated_mme.length-1][1] + "</p>")
 
   #TODO
 
