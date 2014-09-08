@@ -6,11 +6,14 @@
 $ ->
 
   $(".container-grafico").highcharts
-    title:
-      text: "Currencies Historical Data"
+    chart:
+      title:
+        text: "Currencies Historical Data"
 
-    subtitle:
-      text: "Source: JSONRates"      
+      subtitle:
+        text: "Source: JSONRates"    
+
+      zoomType: "xy"  
 
     yAxis:
       title:

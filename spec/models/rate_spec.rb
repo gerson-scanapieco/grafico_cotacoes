@@ -48,6 +48,10 @@ RSpec.describe Rate, :type => :model do
     it "returns a string with the date of 10 years ago" do
       expect(Rate.calculate_start_date("MAX")).to eq "2004-09-07"
     end
+
+    it "returns a string with the date of yesterday if time-span is not allowed" do
+      expect(Rate.calculate_start_date("5K")).to eq "2014-09-06"
+    end
   end
 
   describe "#get_data" do
@@ -66,14 +70,15 @@ RSpec.describe Rate, :type => :model do
       expect{rate.calculate_ema(21,rate.historical_data.size-1)}.to change{rate.calculated_ema}.from([]).to([ ["2014-09-06",2.25],["2014-09-07",2.2509],["2014-09-08",2.2526] ])
     end
 
-    #Test fail condition
-    it "does not calculates if the position is smaller than 0" do
-      expect{rate.calculate_ema(21,-1)}.to_not change{rate.calculated_ema}
-    end
-
     #Tests Base Condition
     it "returns only first element if the index represents an array with only one position" do
       expect{rate.calculate_ema(21,0)}.to change{rate.calculated_ema}.from([]).to([["2014-09-06",2.25]])
+    end
+
+    #Test fail condition
+    it "does not calculate if the array is empty" do
+      rate.historical_data = []
+      expect{rate.calculate_ema(21,rate.historical_data.size-1)}.to_not change{rate.calculated_ema}
     end
   end
 end

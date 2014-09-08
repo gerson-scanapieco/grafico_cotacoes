@@ -30,6 +30,8 @@ class Rate
       return (Date.today - 5.years).to_s
     when "MAX"
       return (Date.today - 10.years).to_s
+    else
+      return (Date.today - 1.days).to_s
     end
   end
 
@@ -37,6 +39,7 @@ class Rate
   def get_data
     parsed_response = JSON.parse(HTTParty.get(self.url).parsed_response)["rates"]
 
+    #Add to @historical_data the date in milliseconds and the value in that day
     parsed_response.each_value do |value|
       self.historical_data << [Date.parse(value["utctime"]).strftime("%Q").to_i,value["rate"].to_f]
     end
