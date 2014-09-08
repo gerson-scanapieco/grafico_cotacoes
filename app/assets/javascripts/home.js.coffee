@@ -6,13 +6,13 @@
 $ ->
 
   $(".container-grafico").highcharts
+    title: 
+      text: "Currencies Historical Data"
+
+    subtitle:
+      text: "Source: JSONRates"  
+
     chart:
-      title:
-        text: "Currencies Historical Data"
-
-      subtitle:
-        text: "Source: JSONRates"    
-
       zoomType: "xy"  
 
     yAxis:
@@ -110,7 +110,7 @@ $ ->
     return current_mme
 
   $(".botao-js").click (event)->
-    event.preventDefault();
+    event.preventDefault()
     btn = $(this)
     btn.button('loading')
     currency = $(".select-currency option:selected").text()
@@ -153,6 +153,55 @@ $ ->
       $(".container-dados").append("<p class='currency'>" + currency + "BRL=X " + array[array.length-1][1] + "</p>")
       $(".container-dados").append("<p class='ema'>EMA(21) " + calculated_mme[calculated_mme.length-1][1] + "</p>")
       btn.button('reset')
+      return
 
   $(".botao-ruby").click (event) ->
     $(this).button('loading')
+    return
+
+  $(".botao-stock").click (event)->
+    event.preventDefault()
+    btn = $(this)
+    btn.button('loading')
+
+    currency = $(".select-currency option:selected").text()
+    time_span = $(".select-time-span option:selected").text()
+
+    current_date = new Date()
+    current_date_formated = current_date.getFullYear().toString() + "-" + (current_date.getMonth() + 1).toString() + "-" + current_date.getDate().toString()
+    
+    start_date = new Date(calculate_start_date(time_span,current_date))
+    start_date_formated = start_date.getFullYear().toString() + "-" + (start_date.getMonth() + 1).toString() + "-" + start_date.getDate().toString()
+
+    url = "http://jsonrates.com/historical/?from=" + currency + "&to=BRL" +
+    "&dateStart=" + start_date_formated + 
+    "&dateEnd=" + current_date_formated + 
+    "&callback=?"
+
+    $.getJSON url, (data) ->
+      array = []
+      $(".container-dados").empty()
+
+      for date of data["rates"]
+        valor = data["rates"][date]["rate"]
+        array.push [new Date(date).getTime(),parseFloat(valor)]
+
+      # Create the chart
+      $(".container-grafico-stock").highcharts "StockChart",
+        rangeSelector:
+          selected: 1
+          inputEnabled: $(".container-grafico-stock").width() > 480
+
+        title:
+          text: "Currencies Historical Data"
+        subtitle:
+          text: "Source: JSONRates"  
+
+        series: [
+          name: "Historical Values"
+          data: array
+          tooltip:
+            valueDecimals: 2
+        ]
+
+      btn.button('reset')
