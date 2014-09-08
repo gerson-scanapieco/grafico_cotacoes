@@ -161,6 +161,7 @@ $ ->
 
   $(".botao-stock").click (event)->
     event.preventDefault()
+    calculated_mme = []
     btn = $(this)
     btn.button('loading')
 
@@ -186,11 +187,12 @@ $ ->
         valor = data["rates"][date]["rate"]
         array.push [new Date(date).getTime(),parseFloat(valor)]
 
+      calculate_exponential_moving_average(array,21,calculated_mme,array.length - 1)
+
       # Create the chart
       $(".container-grafico-stock").highcharts "StockChart",
         rangeSelector:
           selected: 1
-          inputEnabled: $(".container-grafico-stock").width() > 480
 
         title:
           text: "Currencies Historical Data"
@@ -198,10 +200,17 @@ $ ->
           text: "Source: JSONRates"  
 
         series: [
-          name: "Historical Values"
-          data: array
-          tooltip:
-            valueDecimals: 2
+          {
+            name: "Historical Values"
+            data: array
+            tooltip:
+              valueDecimals: 2
+          },
+          {
+            name: "Exponential Moving Average",
+            color: "#ED475B",
+            data: calculated_mme
+          }
         ]
 
       btn.button('reset')
