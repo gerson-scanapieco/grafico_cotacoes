@@ -62,12 +62,12 @@ RSpec.describe Rate, :type => :model do
 
   describe "calculate_ema(number_of_days,current_position)" do
     before(:each) do
-      rate.historical_data = [ ["2014-09-06",2.25],["2014-09-07",2.26],["2014-09-08",2.27]]
+      rate.historical_data = [ ["2014-09-06",2.25],["2014-09-07",2.26],["2014-09-08",2.27], ["2014-09-09",2.28],["2014-09-10",2.29]]
     end
 
     #Test recursive condition
     it "sets in self an array of arrays with the calculated ema for each date point" do
-      expect{rate.calculate_ema(21,rate.historical_data.size-1)}.to change{rate.calculated_ema}.from([]).to([ ["2014-09-06",2.25],["2014-09-07",2.2509],["2014-09-08",2.2526] ])
+      expect{rate.calculate_ema(21,rate.historical_data.size-1)}.to change{rate.calculated_ema}.from([]).to([ ["2014-09-06",2.25],["2014-09-07",2.2509],["2014-09-08",2.2526],["2014-09-09",2.2551],["2014-09-10",2.2583] ])
     end
 
     #Tests Base Condition
