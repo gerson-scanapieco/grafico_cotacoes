@@ -141,6 +141,7 @@ $ ->
 
   $("#button-clear-high").click (event) ->
     chart = $(".container-grafico").highcharts()
+    $(".container-dados").empty()
     chart.series[0].setData([])
     chart.series[1].setData([])
 
