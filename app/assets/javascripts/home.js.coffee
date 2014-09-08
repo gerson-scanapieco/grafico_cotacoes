@@ -139,6 +139,16 @@ $ ->
 
     return current_mme
 
+  $("#button-clear-high").click (event) ->
+    chart = $(".container-grafico").highcharts()
+    chart.series[0].setData([])
+    chart.series[1].setData([])
+
+  $("#button-clear-stock").click (event) ->
+    chart = $(".container-grafico-stock").highcharts()
+    chart.series[0].setData([])
+    chart.series[1].setData([])
+
   $(".botao-js").click (event)->
     event.preventDefault()
     btn = $(this)
