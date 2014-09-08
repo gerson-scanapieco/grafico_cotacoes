@@ -19,9 +19,9 @@
               Time Span
               = select_tag :time_span, options_for_select([['1D','1D'],['5D','5D'],['1M','1M'],['3M','3M'],['6M','6M'],['1Y','1Y'],['2Y','2Y'],['5Y','5Y'],['MAX','MAX']],'1D'), class: "form-control select-time-span"
           .form-group.container-botoes
-            = submit_tag "Compare Using JS", class: "btn btn-success botao-js", "data-loading-text" => "Loading..."
-            = submit_tag "Compare Using Ruby", class: "btn btn-danger botao-ruby", "data-loading-text" => "Loading..."
-            = submit_tag "HighStock", class: "btn btn-warning botao-stock", "data-loading-text" => "Loading..."
+            = submit_tag "HighChart JS", class: "btn btn-success botao-js", "data-loading-text" => "Loading..."
+            = submit_tag "HighChart Ruby", class: "btn btn-danger botao-ruby", "data-loading-text" => "Loading..."
+            = submit_tag "HighStock JS", class: "btn btn-warning botao-stock", "data-loading-text" => "Loading..."
     / /.nav-collapse
 .container
   .container-grafico

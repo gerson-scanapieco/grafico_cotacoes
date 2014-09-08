@@ -5,12 +5,13 @@
 
 $ ->
 
+  #HighChart
   $(".container-grafico").highcharts
     title: 
-      text: "Currencies Historical Data"
+      text: "HighChart"
 
     subtitle:
-      text: "Source: JSONRates"  
+      text: "Currency x BRL"  
 
     chart:
       zoomType: "xy"  
@@ -46,6 +47,35 @@ $ ->
         ]
       }
     ]
+
+  #StockChart
+  $(".container-grafico-stock").highcharts "StockChart",
+    rangeSelector:
+      selected: 1
+
+    title:
+      text: "StockChart"
+    subtitle:
+      text: "Currency x BRL"  
+
+    yAxis:
+      title:
+        text: "Value in BRL"
+
+    series: [
+      {
+        name: "Historical Values"
+        data: []
+        tooltip:
+          valueDecimals: 2
+      },
+      {
+        name: "Exponential Moving Average",
+        color: "#ED475B",
+        data: []
+      }
+    ]
+
 
   #ATENTION
   #JS RETURNS MONTH 0-11
@@ -137,13 +167,6 @@ $ ->
         valor = data["rates"][date]["rate"]
         array.push [new Date(date).getTime(),parseFloat(valor)]
       
-      if time_span.indexOf("D") != -1
-        chart.tickInterval = 24 * 3600 * 1000
-      else if time_span.indexOf("M") != -1
-        chart.tickInterval = 24 * 3600 * 1000 * 7
-      else if time_span.indexOf("Y") != -1
-        chart.tickInterval = 24 * 3600 * 1000 * 30
-
       calculate_exponential_moving_average(array,21,calculated_mme,array.length - 1)
 
       chart.series[0].setData(array)
@@ -161,7 +184,6 @@ $ ->
 
   $(".botao-stock").click (event)->
     event.preventDefault()
-    calculated_mme = []
     btn = $(this)
     btn.button('loading')
 
@@ -180,8 +202,9 @@ $ ->
     "&callback=?"
 
     $.getJSON url, (data) ->
+      chart = $(".container-grafico-stock").highcharts()
       array = []
-      $(".container-dados").empty()
+      calculated_mme = []
 
       for date of data["rates"]
         valor = data["rates"][date]["rate"]
@@ -189,28 +212,7 @@ $ ->
 
       calculate_exponential_moving_average(array,21,calculated_mme,array.length - 1)
 
-      # Create the chart
-      $(".container-grafico-stock").highcharts "StockChart",
-        rangeSelector:
-          selected: 1
-
-        title:
-          text: "Currencies Historical Data"
-        subtitle:
-          text: "Source: JSONRates"  
-
-        series: [
-          {
-            name: "Historical Values"
-            data: array
-            tooltip:
-              valueDecimals: 2
-          },
-          {
-            name: "Exponential Moving Average",
-            color: "#ED475B",
-            data: calculated_mme
-          }
-        ]
-
+      chart.series[0].setData(array)
+      chart.series[1].setData(calculated_mme)
       btn.button('reset')
+      return
