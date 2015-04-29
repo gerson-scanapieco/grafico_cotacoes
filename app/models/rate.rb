@@ -3,7 +3,9 @@ class Rate
   attr_accessor :historical_data, :calculated_ema
 
   def initialize(currency,start_date,end_date)
-    @url = "http://jsonrates.com/historical/?from=" + currency + "&to=BRL" + "&dateStart=" + start_date + "&dateEnd=" + end_date
+    @url = 
+      "http://jsonrates.com/historical/?from=" + currency + "&to=BRL" + "&dateStart=" + start_date + "&dateEnd=" + end_date +
+      "&apiKey=" + ENV['API_KEY'] 
     @currency = currency
     @calculated_ema = []
     @historical_data = []

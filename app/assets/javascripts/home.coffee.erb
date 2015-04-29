@@ -166,6 +166,7 @@ $ ->
     url = "http://jsonrates.com/historical/?from=" + currency + "&to=BRL" +
     "&dateStart=" + start_date_formated + 
     "&dateEnd=" + current_date_formated + 
+    "&apiKey=" + "<%= ENV['API_KEY'] %>" +
     "&callback=?"
 
     $.getJSON url, (data) ->
@@ -209,7 +210,8 @@ $ ->
 
     url = "http://jsonrates.com/historical/?from=" + currency + "&to=BRL" +
     "&dateStart=" + start_date_formated + 
-    "&dateEnd=" + current_date_formated + 
+    "&dateEnd=" + current_date_formated +
+    "&apiKey=" + "<%= ENV['API_KEY'] %>" +
     "&callback=?"
 
     $.getJSON url, (data) ->
