@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+ruby "2.1.1"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.0'
@@ -26,15 +27,14 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
 
+gem 'dotenv-rails', :groups => [:development, :test]
+
 gem 'httparty'
 gem 'haml-rails'
 gem 'autoprefixer-rails'  
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'rspec-rails', group: [:development, :test]
 gem 'rails_12factor', group: :production
-
-ruby "2.1.1"
-
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -46,5 +46,5 @@ ruby "2.1.1"
 # gem 'capistrano-rails', group: :development
 
 # Use debugger
-gem 'debugger', group: [:development, :test]
+# gem 'debugger', group: [:development, :test]
 
