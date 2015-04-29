@@ -8,6 +8,3 @@ A app possui 3 formas de exibir os gráficos:
 - Botão Amarelo: usa JavaScript para se comunicar com a API, mas renderiza o gráfico StockChart.
 
 Testes para o código Rails implementados com RSpec.
-Testes para o código JavaScript não implementados ainda. Estou utilizando a Gem Konacha(Mocha + Chai). Estou tendo problemas com escopos, já que o Rails envelopa os arquivos em uma função anônima, e no meu arquivo o código ainda está dentro de uma chamada document.ready. Quando as funções são declaradas em escopo global, consigo acessá-las nos testes, mas não acho que isso seja uma boa prática.
-
-Link: http://charts-chaordic-gerson.herokuapp.com/
